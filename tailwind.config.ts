@@ -11,9 +11,16 @@ const config = {
   prefix: "",
   theme: {
     extend: {
+      fontFamily: {
+        test: ["CourierPrime"],
+      },
       colors: {
-        primary: "#B3C8CF",
-        secondary: "#F1EEDC",
+        primary: "#cdeff1",
+        secondary: "#FBF3D5",
+        third: "#D0A2F7",
+
+        test: "#FC819E",
+        forth: "#D2E3C8",
       },
     },
   },

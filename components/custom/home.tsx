@@ -31,13 +31,16 @@ type CardProps = React.ComponentProps<typeof Card>;
 
 export function Registration({ className, ...props }: CardProps) {
   return (
-    <Card className={cn("w-[380px] bg-secondary", className)} {...props}>
+    <Card
+      className={cn("w-[350px] md:w-[380px] bg-primary", className)}
+      {...props}
+    >
       <CardHeader>
         <CardTitle>MineSpace.com</CardTitle>
         <CardDescription>Welcome to Minespace.com</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <div className=" flex items-center space-x-4 rounded-md border p-4">
+        <div className=" flex items-center space-x-4 rounded-md border border-secondary p-4">
           <BellRing />
           <div className="flex-1 space-y-1">
             <p className="text-sm font-medium leading-none">
@@ -67,7 +70,14 @@ export function Registration({ className, ...props }: CardProps) {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">🚀 Get started</Button>
+        <Button
+          className={cn(
+            " bg-secondary text-primary w-full hover:bg-secondary/90",
+            className
+          )}
+        >
+          🚀 Get started
+        </Button>
       </CardFooter>
     </Card>
   );
