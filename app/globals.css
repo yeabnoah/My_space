@@ -32,3 +32,8 @@
   color: white; /* Change this to your desired color */
   opacity: 1; /* Optional: ensures the color is solid */
 }
+
+.hide_scroll_bar {
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none;
+}

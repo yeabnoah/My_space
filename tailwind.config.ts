@@ -1,3 +1,4 @@
+import { Sidebar } from "lucide-react";
 import type { Config } from "tailwindcss";
 
 const config = {
@@ -15,12 +16,13 @@ const config = {
         test: ["CourierPrime"],
       },
       colors: {
-        primary: "#cdeff1",
+        primary: "#AFC8AD",
         secondary: "#FBF3D5",
-        third: "#D0A2F7",
+        success: "#DED0B6",
+        pink: "#FEC7B4",
 
-        test: "#FC819E",
-        forth: "#D2E3C8",
+        Sidebar: "#101317",
+        setting: "#352F44",
       },
     },
   },
