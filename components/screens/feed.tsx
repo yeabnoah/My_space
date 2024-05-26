@@ -62,9 +62,7 @@ export default function Feed() {
                   <Image
                     src={spring}
                     alt="test"
-                    // width={60}
-                    // height={60}
-                    className="rounded-lg h-56 w-14 md:w-12 -ml-7 md:-ml-7"
+                    className="rounded-lg h-56 md:h-auto w-14 md:w-13 -ml-7 md:-ml-7"
                   />
                 </div>
                 <div className="w-[90%] h-auto rounded-md flex md:gap-5">
@@ -119,7 +117,6 @@ export default function Feed() {
                   className="h-6 w-6 mx-auto stroke-primary hover:stroke-Sidebar"
                   fill="none"
                   viewBox="0 0 24 24"
-                  //   stroke="#AFC8AD"
                 >
                   <path
                     stroke-linecap="round"
