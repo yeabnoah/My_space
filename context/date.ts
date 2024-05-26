@@ -6,7 +6,7 @@ type Date = {
 };
 
 const useDate = create<Date>()((set) => ({
-  dateGet: "",
+  dateGet: "Oct 24, 2003",
   setDateGet: (newDate) => set(() => ({ dateGet: newDate })),
 }));
 

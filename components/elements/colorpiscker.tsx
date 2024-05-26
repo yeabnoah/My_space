@@ -44,9 +44,9 @@ const ColorPicker: React.FC = () => {
             onClick={() => {
               setShowColors(!showColors);
             }}
-            className="flex justify-between"
+            className="flex justify-between w-56"
           >
-            <p className="text-white text-sm">Choose canvas color:</p>
+            <p className="text-white text-sm hidden md:block">canvas color:</p>
             <div
               className={`bg-${color} rounded-md`}
               style={{
@@ -71,6 +71,7 @@ const ColorPicker: React.FC = () => {
                 width: "35px",
                 height: "35px",
                 cursor: "pointer",
+                borderRadius: 20,
                 border: color === color ? "2px solid black" : "none",
               }}
             />

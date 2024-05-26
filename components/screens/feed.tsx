@@ -56,13 +56,13 @@ export default function Feed() {
             return (
               <div
                 key={each.id}
-                className={`w-auto md:w-[440px] h-auto flex rounded-lg mt-5 p-3 md:mr-5 items-center ${bgColorClass}`}
+                className={`w-auto md:w-[440px] h-auto flex rounded-lg mt-5 p-3 md:mr-5  md:gap-0 items-center ${bgColorClass}`}
               >
                 <div className="w-[20%] h-[100%] rounded-md flex items-center">
                   <Image
                     src={spring}
                     alt="test"
-                    className="rounded-lg h-56 md:h-auto w-14 md:w-13 -ml-7 md:-ml-7"
+                    className="rounded-lg h-56 md:h-auto w-16 md:w-13 -ml-7 md:-ml-7"
                   />
                 </div>
                 <div className="w-[90%] h-auto rounded-md flex md:gap-5">
@@ -91,13 +91,18 @@ export default function Feed() {
                       </Button>
                     </div>
                   </div>
-                  <Image
-                    src={each.image}
-                    alt="test"
-                    width={260}
-                    height={230}
-                    className="rounded-lg hidden md:block w-[55%] h-[80%]"
-                  />
+
+                  {each.image.length > 0 && (
+                    <div className="image-container hidden md:block">
+                      <Image
+                        key={each.image[0]}
+                        src={each.image[0]}
+                        alt="test"
+                        layout="fill"
+                        className="image"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             );

@@ -76,3 +76,15 @@
 .tiny {
   flex: 0.08;
 }
+
+.image-container {
+  width: 130px;
+  height: 130px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.image {
+  object-fit: cover;
+  object-position: center;
+}
