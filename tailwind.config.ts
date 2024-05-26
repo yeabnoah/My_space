@@ -23,6 +23,7 @@ const config = {
 
         Sidebar: "#101317",
         setting: "#352F44",
+        test: "#846358",
       },
     },
   },
