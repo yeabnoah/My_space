@@ -88,3 +88,29 @@
   object-fit: cover;
   object-position: center;
 }
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.swiper {
+  width: 200px;
+  height: 275px;
+}
+
+.swiper-slide:nth-child(1n) {
+  border-radius: 0 !important;
+  justify-content: flex-start;
+  padding-top: 10px;
+}
+
+.this_is_background {
+  /* background-image: url("../public/colored-paper-sculpture-background-spring-memo-notes-illustration-set-diary-notebook-paper-memo_632180-956-removebg-preview.png"); */
+  background-color: #222831;
+  background-size: contain;
+}

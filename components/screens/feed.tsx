@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import getDiaries from "@/utils/dummy";
 import Image from "next/image";
@@ -7,9 +9,26 @@ import spring from "../../public/spring.png";
 import { Heart, HeartOff, MessageSquareMore } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useAdd from "@/context/add";
+import axios from "axios";
 
 export default function Feed() {
   const router = useRouter();
+  const [DiaryList, setDiaryList] = useState<any>([]);
+
+  const fetchData = async () => {
+    const response = await axios.get("http://localhost:3000");
+
+    setDiaryList(response.data);
+    console.log("thihs is 777777777777777", DiaryList);
+  };
+
+  useEffect(() => {
+    const fetchCountriesInterval = setInterval(() => {
+      fetchData();
+    }, 2000);
+
+    return () => clearInterval(fetchCountriesInterval);
+  }, []);
 
   const { isAdd, setIsAdd } = useAdd();
 
@@ -20,11 +39,26 @@ export default function Feed() {
           placeholder="Search a Journal/ Diary"
           className="bg-black justify-center courier-prime-regular md:text-sm md:w-80 md:py-3 px-5 mr-5 text-white placeholder-color border-[1px] border-white"
         />
-        <Button className=" text-sm courier-prime-regular">Search</Button>
+        <Button
+          onClick={() => {
+            fetchData();
+          }}
+          className=" text-sm courier-prime-regular"
+        >
+          Search
+        </Button>
       </div>
       <h3 className="text-white text-lg md:text-base -mb-3 courier-prime-regular">
         Diaries/Journals
       </h3>
+      {/* {DiaryList &&
+        DiaryList.map((test: any) => {
+          return (
+            <div key={test._id} className=" text-white">
+              hello world
+            </div>
+          );
+        })} */}
       <div className="flex-col md:flex rounded-lg md:flex-row md:gap-5 overflow-x-scroll hide_scroll_bar">
         <div className="rounded-lg flex-col md:flex md:flex-row md:gap-2 flex-wrap hide_scroll_bar">
           {getDiaries.map((each) => {
@@ -93,7 +127,7 @@ export default function Feed() {
                   </div>
 
                   {each.image.length > 0 && (
-                    <div className="image-container hidden md:block">
+                    <div className="image-container h-[100%] hidden md:block">
                       <Image
                         key={each.image[0]}
                         src={each.image[0]}
@@ -124,9 +158,11 @@ export default function Feed() {
                   viewBox="0 0 24 24"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    // stroke-linecap="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    // stroke-linejoin="round"
+                    strokeWidth={2}
                     d="M12 4v16m8-8H4"
                   />
                 </svg>

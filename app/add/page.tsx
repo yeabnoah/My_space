@@ -24,6 +24,8 @@ import pin from "../../public/uuu.png";
 import test from "../../public/uuuu.jpg";
 import { Input } from "@/components/ui/input";
 import Draggable from "react-draggable";
+import TesterApp from "@/components/elements/swiper";
+import useImage from "@/context/images";
 
 const cloudName = "dsaitxphg";
 const preset_key = "ccelrtz4";
@@ -36,15 +38,28 @@ export default function Dashboard() {
   const { setColor, color } = useColor();
   const { mood, setMood } = useMood();
   const [text, setText] = useState("talk to your little diary ...");
+  const { images, setImages } = useImage();
+  const [diaryStatus, setDiaryStatus] = useState(false);
+  // const [isPublic, setIsPublic] = useState(false);
 
   const [profilePic, setProfilePic] = useState<string[]>([]); // Specify string[] for profilePic state
+
+  const handleSubmit = () => {
+    console.log({
+      dateGet,
+      color,
+      mood,
+      text,
+      images,
+      diaryStatus,
+    });
+  };
 
   function handleFile1(event: any) {
     const files = event.target.files;
     if (files) {
       const formDataArray: FormData[] = [];
 
-      // Append each selected file to a separate FormData
       for (let i = 0; i < files.length; i++) {
         const formData = new FormData();
         formData.append("file", files[i]);
@@ -52,7 +67,6 @@ export default function Dashboard() {
         formDataArray.push(formData);
       }
 
-      // Upload each FormData and collect the response URLs
       Promise.all(
         formDataArray.map((formData) =>
           axios.post(
@@ -64,13 +78,11 @@ export default function Dashboard() {
         .then((responses) => {
           const urls = responses.map((res) => res.data.secure_url);
           console.log(urls);
-          setProfilePic((prevState) => [...prevState, ...urls]);
+          setImages([...urls]);
         })
         .catch((err) => console.error(err));
     }
   }
-
-  const [diaryStatus, setDiaryStatus] = useState(false);
 
   const handleTextChange = (e: any) => {
     setText(e.target.value);
@@ -94,7 +106,7 @@ export default function Dashboard() {
   return (
     <div className="w-full h-screen md:h-screen flex flex-col md:flex md:flex-row overflow-hidden courier-prime-regular bg-Sidebar">
       <div
-        className={`bg-${color} md:major h-[30%] md:h-screen rounded-r-md flex mx-5 md:mx-0 mt-2 md:mt-0`}
+        className={`bg-${color} md:flex-[3] flex-[.6]  h-[30%] md:h-screen rounded-r-md flex mx-5 md:mx-0 mt-2 md:mt-0`}
       >
         <Image
           src={spring}
@@ -112,37 +124,23 @@ export default function Dashboard() {
               {mood}
             </div>
           </div>
-          <p className="text-sm text-start mr-5 md:mr-16 mt-5 whitespace-pre-line flex-wrap text-wrap underline-offset-2">
+          <p className="text-sm text-start mr-5 md:mr-5 mt-5 whitespace-pre-line flex-wrap text-wrap underline-offset-2">
             {text}
           </p>
 
-          <div className="flex-grow"></div>
+          {/* <div className="flex-grow"></div> */}
+        </div>
 
-          <div className="hide_scroll_bar flex flex-wrap justify-center md:gap-3 md:sticky   md:-bottom-[20%] ">
-            {profilePic?.map((url, index) => (
-              <div
-                key={index}
-                className="z-28  w-40 h-40 mb-4"
-                style={{
-                  transform: `rotate(-${Math.random() * 45}deg)`,
-                }}
-              >
-                <Image
-                  className="m-2 pt-4 px-5 pb-10 bg-black rotate-3"
-                  src={url}
-                  alt={`image-${index}`}
-                  width={160}
-                  height={160}
-                  layout="responsive"
-                />
-              </div>
-            ))}
+        <div className=" hidden hide_scroll_bar md:first-line:h-screen mr-10 md:flex md:flex-col md:justify-end">
+          <div className=" justify-end">
+            <TesterApp />
           </div>
         </div>
       </div>
+
       <div className="minor md:h-screen minor flex flex-col bg-Sidebar  overflow-y-scroll hide_scroll_bar">
         <div className="h-14 w-full md:flex justify-end items-center hidden ">
-          <Link href="/feed">
+          <Link href="/">
             <Button className="mx-2 bg-red-400 text-Sidebar hover:bg-red-500">
               Cancel ❌
             </Button>
@@ -213,9 +211,7 @@ export default function Dashboard() {
             </div>
 
             <Button
-              onClick={() => {
-                router.push("/feed");
-              }}
+              onClick={handleSubmit}
               className={`my-3 text-sm bg-${color}`}
             >
               <NotebookPen size={18} className="mx-2 " />
