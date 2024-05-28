@@ -34,19 +34,19 @@ const ColorPicker: React.FC = () => {
   }, [showColors]);
 
   return (
-    <div className="py-2" ref={colorPickerRef}>
+    <div className="pb-2 " ref={colorPickerRef}>
       <div
-        className="border-[1px] rounded-md border-white p-2"
-        style={{ marginTop: "20px" }}
+        className="border-[1px] rounded-md border-white p-2  mt-2 md:mt-4 "
+        // style={{ marginTop: "20px" }}
       >
         {color ? (
           <button
             onClick={() => {
               setShowColors(!showColors);
             }}
-            className="flex justify-between w-56"
+            className="flex justify-between items-center w-[100%]"
           >
-            <p className="text-white text-sm hidden md:block">canvas color:</p>
+            <p className="text-white text-sm block">canvas color:</p>
             <div
               className={`bg-${color} rounded-md`}
               style={{
@@ -57,11 +57,12 @@ const ColorPicker: React.FC = () => {
             />
           </button>
         ) : (
-          <p className="text-white text-base">Please select a color</p>
+          <p className="text-white text-base block">Please select a color</p>
         )}
       </div>
+
       {showColors && (
-        <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>
+        <div className=" md:gap-2 flex mb-4">
           {colors.map((color) => (
             <div
               key={color}

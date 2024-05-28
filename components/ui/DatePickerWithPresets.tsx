@@ -39,7 +39,7 @@ export function DatePickerWithPresets() {
           variant={"outline"}
           className={cn(
             "w-[200px] justify-start text-left font-normal text-white text-sm",
-            !date && "text-white courier-prime-regular text-sm w-56"
+            !date && "text-white courier-prime-regular text-sm w-[100%]"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4 text-white text-sm" />

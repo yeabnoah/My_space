@@ -59,8 +59,8 @@ const MoodPicker: React.FC = () => {
   }, [showMoods]);
 
   return (
-    <div className={` ${showMoods ? "w-64" : ""}`} ref={moodPickerRef}>
-      <div className="border-[1px] rounded-md border-white my-2">
+    <div className={` ${showMoods ? "md:w-64" : ""}`} ref={moodPickerRef}>
+      <div className="border-[1px] rounded-md border-white my-2  ">
         {mood ? (
           <button
             onClick={() => {
@@ -69,7 +69,7 @@ const MoodPicker: React.FC = () => {
             className="flex justify-start py-2 items-center text-center w-56"
             style={{ cursor: "pointer" }}
           >
-            <p className="text-white text-sm pl-5">Mood |</p>
+            <p className="text-white text-sm pl-5 block">Mood |</p>
             <div className="flex items-center">
               <span className=" text-white text-sm ml-2">{mood}</span>
             </div>
@@ -79,7 +79,7 @@ const MoodPicker: React.FC = () => {
             onClick={() => {
               setShowMoods(true);
             }}
-            className="text-white text-sm px-2 py-2 flex justify-between items-center w-56"
+            className="text-white text-sm px-2 py-2 hidden md:flex justify-between items-center w-56"
           >
             Select your mood
           </button>

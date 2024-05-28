@@ -56,13 +56,13 @@ export default function Dashboard() {
 
   return (
     <div className="w-[100%] h-screen flex overflow-hidden courier-prime-regular">
-      <div className=" md:hidden bg-Sidebar h-screen w-full flex justify-center">
-        <div className=" mt-2">
+      <div className=" md:hidden bg-Sidebar h-screen w-fit flex justify-center pt-2">
+        <div className=" bg-2 w-red-200">
           <div className=" flex justify-center items-center">
             <Image
               src={user}
               alt="her"
-              className=" w-10 h-10 mt rounded-full border-2 border-pink"
+              className=" w-10 h-10 rounded-full border-2 border-pink"
             />
           </div>
 
