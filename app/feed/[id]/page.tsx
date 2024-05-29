@@ -59,6 +59,8 @@ export default function Dashboard() {
       >
         <Image
           src={spring}
+          width={100}
+          height={100}
           alt="spring"
           className="md:h-auto w-12 md:w-24 md:-ml-[49px] -ml-6 mt-2"
         />

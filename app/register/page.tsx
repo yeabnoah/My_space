@@ -80,9 +80,19 @@ export default function Register() {
               />
             </div>
 
-            <Button onClick={handleSubmit} type="submit" className="w-full">
+            <Button
+              onClick={handleSubmit}
+              type="submit"
+              className="w-full bg-gray-400 hover:bg-gray-400 text-Sidebar"
+            >
               Register
             </Button>
+            <Link
+              href="/"
+              className="underline items-center justify-center text-center"
+            >
+              continue as a guest
+            </Link>
 
             {showError && (
               <h3 className=" text-red-500 text-center courier-prime-regular text-sm">

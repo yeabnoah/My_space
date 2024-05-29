@@ -2,6 +2,12 @@
 const nextConfig = {
   images: {
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "d22e6o9mp4t2lx.cloudfront.net",
+        port: "",
+        pathname: "/cms/**",
+      },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },
       {

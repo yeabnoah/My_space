@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import user from "../public/tttj.jpg";
+import usert from "../public/tttj.jpg";
 import {
   Settings,
   Rss,
@@ -9,6 +9,8 @@ import {
   BookLock,
   Pencil,
   PenBoxIcon,
+  LogOut,
+  LogIn,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
@@ -20,25 +22,69 @@ import Secrets from "@/components/screens/secrets";
 import MyDiaries from "@/components/screens/myDiaries";
 import useAdd from "@/context/add";
 import "./globals.css";
+import { getAuthToken, logout } from "@/middleware/authService";
+import useUserStore from "@/context/myDetails";
+import { log } from "console";
+import avatar from "../public/avatar.jpg";
+import { useRouter } from "next/navigation";
+import useLoginData from "@/context/loggedIn";
+import { splitText } from "@/components/elements/sliceText";
 
 export default function Dashboard() {
   const [postData, setPostData] = useState([]);
   const { screen, setScreen } = useScreen();
+  const { user, setUser } = useUserStore();
+  const { isLoggedIn, setIsLoggedIn } = useLoginData();
 
   const { isAdd, setIsAdd } = useAdd();
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await axios.get("http://localhost:3000/diary");
+  const whoAmI = async () => {
+    const token = await getAuthToken();
+    
+    const response = await axios.get("http://localhost:3000/user/whoami/", {
+      headers: {
+        Authorization: token,
+      },
+    });
 
-  //     const data = await response.data;
+    setUser(response?.data);
+  };
 
-  //     console.log(data);
-  //     setPostData(data);
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = getAuthToken();
+      try {
+        if (token) {
+          console.log(token);
+          setIsLoggedIn(true);
+          whoAmI();
+        } else {
+          setIsLoggedIn(false);
+          alert("User not logged in");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  //   fetchData();
-  // }, []);
+    fetchData();
+  }, [setUser, user, isLoggedIn]);
+
+  const handleLogout = () => {
+    logout();
+    setUser({
+      _id: "",
+      name: "notLoggedIn",
+      profilePicture: "",
+      username: "",
+      password: "",
+      diaries: [],
+      theme: "",
+      __v: 0,
+    });
+    alert("user logged out !!");
+  };
 
   const MainScreen = () => {
     switch (screen) {
@@ -60,11 +106,29 @@ export default function Dashboard() {
       <div className=" md:hidden bg-Sidebar h-screen w-fit flex justify-center pt-2">
         <div className=" bg-2 w-red-200">
           <div className=" flex justify-center items-center">
-            <Image
-              src={user}
-              alt="her"
-              className=" w-10 h-10 rounded-full border-2 border-pink"
-            />
+            {isLoggedIn && user && user.profilePicture ? (
+              <Image
+                onClick={() => {
+                  setScreen("Feed");
+                }}
+                src={user.profilePicture}
+                alt="User Profile Picture"
+                width={100}
+                height={100}
+                className={`w-10 h-10 rounded-full border-2 border-${user.theme}`}
+              />
+            ) : (
+              <Image
+                onClick={() => {
+                  setScreen("Feed");
+                }}
+                src={avatar}
+                alt="Default Avatar"
+                width={100}
+                height={100}
+                className="w-10 h-10 rounded-full border-2 border-gray-400"
+              />
+            )}
           </div>
 
           <div className=" mt-5">
@@ -103,30 +167,78 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="md:w-[19%] h-full bg-Sidebar hidden md:flex flex-col justify-between">
+      <div className="md:w-[16.5%] h-full bg-Sidebar hidden md:flex flex-col justify-between">
         <div className="text-primary text-lg text-center mt-5 courier-prime-regular">
           My_Space.com
         </div>
 
-        <div className=" h-[350px] w-[100%] flex justify-center items-center">
+        <div className="h-[350px] w-[100%] flex justify-center items-center">
           <div className="">
-            <div className=" flex justify-center mt-5">
-              <Image
-                src={user}
-                alt="her"
-                className=" w-20 h-20 rounded-full border-2 border-pink"
-              />
+            <div className="flex justify-center mt-5">
+              {isLoggedIn && user && user.profilePicture ? (
+                <Image
+                  onClick={() => {
+                    setScreen("Feed");
+                  }}
+                  src={user.profilePicture}
+                  alt="User Profile Picture"
+                  width={100}
+                  height={100}
+                  className={`w-20 h-20 rounded-full border-2 border-${user.theme}`}
+                />
+              ) : (
+                <Image
+                  onClick={() => {
+                    setScreen("Feed");
+                  }}
+                  src={avatar}
+                  alt="Default Avatar"
+                  width={100}
+                  height={100}
+                  className="w-20 h-20 rounded-full border-2 border-gray-400"
+                />
+              )}
             </div>
 
-            <div>
-              <h2 className=" text-pink text-base text-center mt-3 courier-prime-regular">
-                Alice t.
-              </h2>
-              <Button className="text-base flex courier-prime-regular gap-2 px-2 py-0 items-center bg-pink">
-                Edit
-                <Pencil className=" text-xs" style={{ fontSize: 12 }} />
-              </Button>
-            </div>
+            {isLoggedIn && user ? (
+              <div>
+                <h2
+                  className={`text-${user.theme} text-base text-center mt-3 courier-prime-regular`}
+                >
+                  {user.name}
+                </h2>
+                <Button
+                  onClick={handleLogout}
+                  className={`text-base mt-2 flex courier-prime-regular gap-2 px-2 py-0 items-center bg-${user.theme}`}
+                >
+                  Logout
+                  <LogOut
+                    className="text-xs"
+                    size={16}
+                    style={{ fontSize: 12 }}
+                  />
+                </Button>
+              </div>
+            ) : (
+              <div>
+                <h2 className="text-gray-400 text-sm text-center mt-3 courier-prime-regular">
+                  not Logged in
+                </h2>
+                <Button
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                  className="text-sm flex justify-center mt-2 courier-prime-regular gap-2 px-2 py-0 items-center bg-gray-400 hover:bg-gray-500"
+                >
+                  Login
+                  <LogIn
+                    className="text-xs"
+                    size={16}
+                    style={{ fontSize: 12 }}
+                  />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 

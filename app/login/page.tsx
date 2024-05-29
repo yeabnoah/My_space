@@ -9,14 +9,27 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { login } from "@/middleware/authService";
+import { getAuthToken, login } from "@/middleware/authService";
 import { useRouter } from "next/navigation";
+import useUserStore from "@/context/myDetails";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showError, setShowError] = useState(false);
+  const { setUser, user } = useUserStore();
   const router = useRouter();
+
+  const whoAmI = async () => {
+    const token = await getAuthToken();
+    const response = await axios.get("http://localhost:3000/user/whoami/", {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    setUser(response?.data);
+  };
 
   const TOKEN_COOKIE_NAME = "jwtTokenLoggedIn";
 
@@ -25,6 +38,8 @@ export default function Login() {
 
     if (success) {
       router.push("/");
+      whoAmI();
+      alert(`welcome ${user.name}`);
     } else {
       setShowError(true);
       router.push("/login");
@@ -66,9 +81,19 @@ export default function Login() {
               />
             </div>
 
-            <Button onClick={handleSubmit} type="submit" className="w-full">
+            <Button
+              onClick={handleSubmit}
+              type="submit"
+              className="w-full bg-gray-400 hover:bg-gray-400 text-Sidebar"
+            >
               Login
             </Button>
+            <Link
+              href="/"
+              className="underline items-center justify-center text-center"
+            >
+              continue as a guest
+            </Link>
 
             {showError && (
               <h3 className=" text-red-500 text-center courier-prime-regular text-sm">

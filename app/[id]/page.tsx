@@ -33,7 +33,7 @@ import { headers } from "next/headers";
 const cloudName = "dsaitxphg";
 const preset_key = "ccelrtz4";
 
-export default function Dashboard() {
+export default function Dashboard({ params }: { params: { id: string } }) {
   // Receive onSelect as a prop
   const { screen } = useScreen();
   const router = useRouter();
@@ -69,7 +69,6 @@ export default function Dashboard() {
         }
       );
 
-      router.push("/");
       console.log("Response data:", response.data);
     } catch (error: any) {
       if (error.response) {
@@ -83,21 +82,22 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = getAuthToken();
-      try {
-        if (token) {
-          setIsLoggedIn(true);
-        } else {
-          setIsLoggedIn(false);
-          router.push("/login");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+    alert();
+    // const fetchData = async () => {
+    //   const token = getAuthToken();
+    //   try {
+    //     if (token) {
+    //       setIsLoggedIn(true);
+    //     } else {
+    //       setIsLoggedIn(false);
+    //       router.push("/login");
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
   }, [isLoggedIn]);
 
   function handleFile1(event: any) {
