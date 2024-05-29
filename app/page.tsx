@@ -61,7 +61,7 @@ export default function Dashboard() {
           whoAmI();
         } else {
           setIsLoggedIn(false);
-          alert("User not logged in");
+        
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -83,7 +83,6 @@ export default function Dashboard() {
       theme: "",
       __v: 0,
     });
-    alert("user logged out !!");
   };
 
   const MainScreen = () => {

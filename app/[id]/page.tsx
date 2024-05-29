@@ -56,7 +56,6 @@ export default function Details({ params }: { params: { id: string } }) {
 
       setDiary(response.data);
       setImages(response.data.picture);
-      console.log(diary);
     } catch (error: any) {}
   };
 

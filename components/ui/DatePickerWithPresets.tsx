@@ -27,7 +27,6 @@ export function DatePickerWithPresets() {
 
   React.useEffect(() => {
     if (date) {
-      console.log("Selected date:", format(date, "PPP"));
       setDateGet(format(date, "PPP"));
     }
   }, [date, setDateGet]);

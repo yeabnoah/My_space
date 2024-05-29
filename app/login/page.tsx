@@ -39,7 +39,6 @@ export default function Login() {
     if (success) {
       router.push("/");
       whoAmI();
-      alert(`welcome ${user.name}`);
     } else {
       setShowError(true);
       router.push("/login");

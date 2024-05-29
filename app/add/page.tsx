@@ -70,7 +70,6 @@ export default function Dashboard() {
       );
 
       router.push("/");
-      console.log("Response data:", response.data);
     } catch (error: any) {
       if (error.response) {
         console.error("Error response:", error.response.data);
@@ -122,7 +121,7 @@ export default function Dashboard() {
       )
         .then((responses) => {
           const urls = responses.map((res) => res.data.secure_url);
-          console.log(urls);
+
           setImages([...urls]);
         })
         .catch((err) => console.error(err));

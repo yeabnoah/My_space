@@ -41,8 +41,6 @@ export default function Feed() {
 
       setDiary(response.data);
       setImages(response.data.picture);
-      console.log("this is state", diary);
-      console.log("this is response ", response.data);
 
       router.push(`/${id}`);
     } catch (error: any) {

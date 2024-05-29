@@ -55,7 +55,6 @@ export function EditUser() {
           },
         }
       );
-      console.log(response.data);
       setScreen("Settings");
     } catch (error) {
       console.error(error);
@@ -75,7 +74,7 @@ export function EditUser() {
           formData
         );
         const url = response.data.secure_url;
-        console.log(url);
+
         setImage(url);
       } catch (err) {
         console.error(err);
