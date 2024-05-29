@@ -29,6 +29,7 @@ import avatar from "../public/avatar.jpg";
 import { useRouter } from "next/navigation";
 import useLoginData from "@/context/loggedIn";
 import { splitText } from "@/components/elements/sliceText";
+import { EditUser } from "@/components/screens/edit";
 
 export default function Dashboard() {
   const [postData, setPostData] = useState([]);
@@ -41,7 +42,7 @@ export default function Dashboard() {
 
   const whoAmI = async () => {
     const token = await getAuthToken();
-    
+
     const response = await axios.get("http://localhost:3000/user/whoami/", {
       headers: {
         Authorization: token,
@@ -56,7 +57,6 @@ export default function Dashboard() {
       const token = getAuthToken();
       try {
         if (token) {
-          console.log(token);
           setIsLoggedIn(true);
           whoAmI();
         } else {
@@ -96,6 +96,8 @@ export default function Dashboard() {
         return <Secrets />;
       case "MyDiaries":
         return <MyDiaries />;
+      case "Edit":
+        return <EditUser />;
       default:
         return <Feed />;
     }

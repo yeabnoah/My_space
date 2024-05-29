@@ -8,13 +8,11 @@ const ColorPicker: React.FC = () => {
     "secondary",
     "success",
     "pink",
-    "violet-200",
     "color1",
     "color2",
     "color3",
     "color4",
     "color5",
-    "color6",
     "color7",
     "color8",
     "color9",
@@ -24,7 +22,6 @@ const ColorPicker: React.FC = () => {
     "color13",
     "color14",
     "color15",
-    "color16",
     "color17",
     "color18",
   ];
@@ -87,21 +84,90 @@ const ColorPicker: React.FC = () => {
       </div>
 
       {showColors && (
-        <div className=" md:gap-2 flex mb-4 flex-wrap">
-          {colors.map((color) => (
-            <div
-              key={color}
-              className={`bg-${color} mt-2`}
-              onClick={() => handleColorClick(color)}
-              style={{
-                width: "35px",
-                height: "35px",
-                cursor: "pointer",
-                borderRadius: 20,
-                border: color === color ? "2px solid black" : "none",
-              }}
-            />
-          ))}
+        <div className=" md:gap-2 flex mb-4 flex-wrap w-full md:w-56">
+          {colors.map((color) => {
+            let bgcolorClass = "";
+
+            switch (color) {
+              case "primary":
+                bgcolorClass = "bg-primary";
+                break;
+              case "secondary":
+                bgcolorClass = "bg-secondary";
+                break;
+              case "success":
+                bgcolorClass = "bg-success";
+                break;
+              case "pink":
+                bgcolorClass = "bg-pink";
+                break;
+              case "color1":
+                bgcolorClass = "bg-color1";
+                break;
+              case "color2":
+                bgcolorClass = "bg-color2";
+                break;
+              case "color3":
+                bgcolorClass = "bg-color3";
+                break;
+              case "color4":
+                bgcolorClass = "bg-color4";
+                break;
+              case "color5":
+                bgcolorClass = "bg-color5";
+                break;
+              case "color7":
+                bgcolorClass = "bg-color7";
+                break;
+              case "color8":
+                bgcolorClass = "bg-color8";
+                break;
+              case "color9":
+                bgcolorClass = "bg-color9";
+                break;
+              case "color10":
+                bgcolorClass = "bg-color10";
+                break;
+              case "color11":
+                bgcolorClass = "bg-color11";
+                break;
+              case "color12":
+                bgcolorClass = "bg-color12";
+                break;
+              case "color13":
+                bgcolorClass = "bg-color13";
+                break;
+              case "color14":
+                bgcolorClass = "bg-color14";
+                break;
+              case "color15":
+                bgcolorClass = "bg-color15";
+                break;
+              case "color17":
+                bgcolorClass = "bg-color17";
+                break;
+              case "color18":
+                bgcolorClass = "bg-color18";
+                break;
+              default:
+                bgcolorClass = "bg-primary";
+            }
+
+            return (
+              <div
+                key={color}
+                className={`${bgcolorClass}  mt-2`}
+                onClick={() => handleColorClick(color)}
+                style={{
+                  width: "35px",
+                  height: "35px",
+                  cursor: "pointer",
+                  borderRadius: 20,
+                  border: color === color ? "2px solid black" : "none",
+                }}
+              />
+            );
+          })}
         </div>
       )}
     </div>

@@ -6,10 +6,13 @@ import { Button } from "../ui/button";
 import avatar from "../../public/avatar.jpg";
 import { Edit, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { logout } from "@/middleware/authService";
+import useScreen from "@/context/screens";
 
 function SettingPage() {
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
   const router = useRouter();
+  const { setScreen, screen } = useScreen();
   const { user, setUser } = useUserStore();
   const test =
     "https://images.unsplash.com/photo-1714779573259-216b0cf746be?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -33,7 +36,7 @@ function SettingPage() {
           <div className=" flex justify-center">
             <Button
               onClick={() => {
-                router.push("/login");
+                setScreen("Edit");
               }}
               className={`text-sm flex mx-3 justify-center text-center mt-2 courier-prime-regular gap-2 px-2 py-0 items-center bg-${user.theme} hover:bg-gray-500`}
             >
@@ -42,7 +45,7 @@ function SettingPage() {
             </Button>
             <Button
               onClick={() => {
-                router.push("/logout");
+                logout();
               }}
               className={`text-sm flex mx-3 justify-center text-center mt-2 courier-prime-regular gap-2 px-2 py-0 items-center bg-${user.theme} hover:bg-gray-500`}
             >

@@ -6,7 +6,7 @@ import getDiaries from "@/utils/dummy";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import spring from "../../public/spring.png";
-import { Heart, HeartOff, MessageSquareMore } from "lucide-react";
+import { Ban, Heart, HeartOff, MessageSquareMore } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useAdd from "@/context/add";
 import axios from "axios";
@@ -14,24 +14,46 @@ import spinner from "../../public/spinner.svg";
 import { getAuthToken } from "@/middleware/authService";
 import useLoginData from "@/context/loggedIn";
 import { splitText } from "../elements/sliceText";
+import useDiaryState from "@/context/diaryDetail";
+import useImage from "@/context/images";
+import { error } from "console";
 
 export default function Feed() {
   const router = useRouter();
   const [DiaryList, setDiaryList] = useState<any>([]);
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
   const [loading, setLoading] = useState(false);
+  const { diary, setDiary } = useDiaryState();
+  const { images, setImages } = useImage();
+  const [imageLiked, setImageLiked] = useState(false);
+  const [imageDisliked, setImageDisliked] = useState(false);
+  const [imageReported, setImageReported] = useState(false);
 
   const fetchData = async () => {
-    const response = await axios.get("http://localhost:3000");
+    const response = await axios.get("http://127.0.0.1:3000");
 
     setDiaryList(response.data);
-    console.log("thihs is 777777777777777", DiaryList);
+  };
+
+  const fetchDetail = async (id: string) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/free/${id}`);
+
+      setDiary(response.data);
+      setImages(response.data.picture);
+      console.log("this is state", diary);
+      console.log("this is response ", response.data);
+
+      router.push(`/${id}`);
+    } catch (error: any) {
+      router.push("/");
+    }
   };
 
   useEffect(() => {
     const fetchCountriesInterval = setInterval(() => {
       fetchData();
-    }, 2000);
+    }, 15000);
 
     return () => clearInterval(fetchCountriesInterval);
   }, []);
@@ -39,16 +61,83 @@ export default function Feed() {
   const { isAdd, setIsAdd } = useAdd();
 
   const addHandler = async () => {
-    const token = await getAuthToken();
+    const token = getAuthToken();
 
     if (token) {
       setIsLoggedIn(true);
+      setImages([]);
       router.push("/add");
     } else {
       setIsLoggedIn(false);
       router.push("/login");
     }
   };
+
+  const handleLike = async (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    try {
+      const token = getAuthToken();
+
+      if (token) {
+        const response = await axios.post(
+          `http://localhost:3000/diary/like/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+
+        if (response.data.message === "Like added") {
+          setImageLiked(true);
+        } else if (response.data.message === "Like removed") {
+          setImageLiked(false);
+        }
+      } else {
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("Error liking the diary entry:", error);
+    }
+  };
+
+  const handleDislike = async (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    try {
+      const token = getAuthToken();
+
+      if (token) {
+        const response = await axios.post(
+          `http://localhost:3000/diary/dislike/${id}`,
+          {},
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+
+        if (response.data.message === "Dislike added") {
+          setImageLiked(true);
+        } else if (response.data.message === "Dislike removed") {
+          setImageLiked(false);
+        }
+      } else {
+        router.push("/login");
+      }
+    } catch (error) {
+      console.error("Error liking the diary entry:", error);
+    }
+  };
+
+  const handleReport = (id: string) => {};
 
   return (
     <div className="md:w-[81%] h-full overflow-y-scroll pt-5 px-5 md:mx-10 hide_scroll_bar">
@@ -69,17 +158,10 @@ export default function Feed() {
       <h3 className="text-white text-lg md:text-base -mb-3 courier-prime-regular">
         Diaries/Journals
       </h3>
-      {/* {DiaryList &&
-        DiaryList.map((test: any) => {
-          return (
-            <div key={test._id} className=" text-white">
-              hello world
-            </div>
-          );
-        })} */}
+
       <div className="flex-col md:flex rounded-lg md:flex-row md:gap-5 overflow-x-scroll hide_scroll_bar">
         <div className="rounded-lg flex-col md:flex md:flex-row md:gap-2 flex-wrap hide_scroll_bar">
-          {DiaryList.length === 0 ? (
+          {!DiaryList || DiaryList.length === 0 ? (
             <div className="  md:w-[900px] md:h-[500px] mt-[50%] md:mt-0 flex justify-center items-center">
               <div>
                 <Image
@@ -94,37 +176,110 @@ export default function Feed() {
             </div>
           ) : (
             DiaryList.map((each: any) => {
-              let bgColorClass = "";
-              let textColorClass = "";
-
               const splitedText = splitText(each.content);
-
+              let bgcolorClass = "";
+              let textColorClass = "";
               switch (each.theme) {
                 case "primary":
-                  bgColorClass = "bg-primary";
+                  bgcolorClass = "bg-primary";
                   textColorClass = "text-primary";
                   break;
                 case "secondary":
-                  bgColorClass = "bg-secondary";
+                  bgcolorClass = "bg-secondary";
                   textColorClass = "text-secondary";
                   break;
-                case "pink":
-                  bgColorClass = "bg-pink";
-                  textColorClass = "text-pink";
-                  break;
                 case "success":
-                  bgColorClass = "bg-success";
+                  bgcolorClass = "bg-success";
                   textColorClass = "text-success";
                   break;
+                case "pink":
+                  bgcolorClass = "bg-pink";
+                  textColorClass = "text-pink";
+                  break;
+                case "color1":
+                  bgcolorClass = "bg-color1";
+                  textColorClass = "text-color1";
+                  break;
+                case "color2":
+                  bgcolorClass = "bg-color2";
+                  textColorClass = "text-color2";
+                  break;
+                case "color3":
+                  bgcolorClass = "bg-color3";
+                  textColorClass = "text-color3";
+                  break;
+                case "color4":
+                  bgcolorClass = "bg-color4";
+                  textColorClass = "text-color4";
+                  break;
+                case "color5":
+                  bgcolorClass = "bg-color5";
+                  textColorClass = "text-color5";
+                  break;
+                case "color6":
+                  bgcolorClass = "bg-color6";
+                  textColorClass = "text-color6";
+                  break;
+                case "color7":
+                  bgcolorClass = "bg-color7";
+                  textColorClass = "text-color7";
+                  break;
+                case "color8":
+                  bgcolorClass = "bg-color8";
+                  textColorClass = "text-color8";
+                  break;
+                case "color9":
+                  bgcolorClass = "bg-color9";
+                  textColorClass = "text-color9";
+                  break;
+                case "color10":
+                  bgcolorClass = "bg-color10";
+                  textColorClass = "text-color10";
+                  break;
+                case "color11":
+                  bgcolorClass = "bg-color11";
+                  textColorClass = "text-color11";
+                  break;
+                case "color12":
+                  bgcolorClass = "bg-color12";
+                  textColorClass = "text-color12";
+                  break;
+                case "color13":
+                  bgcolorClass = "bg-color13";
+                  textColorClass = "text-color13";
+                  break;
+                case "color14":
+                  bgcolorClass = "bg-color14";
+                  textColorClass = "text-color14";
+                  break;
+                case "color15":
+                  bgcolorClass = "bg-color15";
+                  textColorClass = "text-color15";
+                  break;
+                case "color16":
+                  bgcolorClass = "bg-color16";
+                  textColorClass = "text-color16";
+                  break;
+                case "color17":
+                  bgcolorClass = "bg-color17";
+                  textColorClass = "text-color17";
+                  break;
+                case "color18":
+                  bgcolorClass = "bg-color18";
+                  textColorClass = "text-color18";
+                  break;
                 default:
-                  bgColorClass = "";
-                  textColorClass = "";
+                  bgcolorClass = "bg-primary";
+                  textColorClass = "text-primary";
               }
 
               return (
                 <div
+                  onClick={() => {
+                    fetchDetail(each._id);
+                  }}
                   key={each._id}
-                  className={`w-auto md:w-[440px] h-max flex rounded-lg mt-5 p-3 md:mr-5  md:gap-0 items-center ${bgColorClass}`}
+                  className={`w-auto md:w-[440px] h-max flex rounded-lg mt-5 p-3 md:mr-5 hover:cursor-pointer  md:gap-0 items-center ${bgcolorClass}`}
                 >
                   <div className="w-[20%] h-[100%] rounded-md flex items-center">
                     <Image
@@ -150,15 +305,63 @@ export default function Feed() {
                         </h3>
                       </div>
                       <div className=" w-auto -ml-8 md:-ml-12 border-t-2 border-gray-500 flex">
-                        <Button className="bg-transparent">
-                          {<Heart size={20} />}
+                        {/* {imageLiked ? (
+                          <Button
+                            onClick={(event) => {
+                              handleLike(each._id, event);
+                            }}
+                            className="bg-transparent"
+                          >
+                            {<Heart size={20} fill="red" />}
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={(event) => {
+                              handleLike(each._id, event);
+                            }}
+                            className="bg-transparent"
+                          >
+                            {<Heart size={20} />}
+                          </Button>
+                        )}
+                         */}
+                        <div>
+                          <Button
+                            onClick={(event) => {
+                              handleLike(each._id, event);
+                            }}
+                            className="bg-transparent flex items-center justify-center"
+                          >
+                            <h2 className=" text-xl mx-1">
+                              {each.likes.length}
+                            </h2>
+                            <Heart size={20} fill="red" />
+                          </Button>
+                        </div>
+
+                        <Button
+                          onClick={(event) => {
+                            handleDislike(each._id, event);
+                          }}
+                          className="bg-transparent flex items-center justify-center"
+                        >
+                          <h2 className=" text-xl mx-1">
+                            {each.dislikes.length}
+                          </h2>
+                          <HeartOff size={20} fill="black" />
                         </Button>
-                        <Button className="bg-transparent">
-                          {<HeartOff size={20} />}
-                        </Button>
-                        <Button className="bg-transparent">
-                          {<MessageSquareMore size={20} />}
-                        </Button>
+
+                        {/* <Button
+                          onClick={() => {
+                            handleReport(each._id);
+                          }}
+                          className="bg-transparent"
+                        >
+                          <h2 className=" text-xl mx-1">
+                            {each.reports.length}
+                          </h2>
+                          <Ban size={20} fill="#7864f6" />
+                        </Button> */}
                       </div>
                     </div>
 

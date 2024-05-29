@@ -14,7 +14,6 @@ export const login = async (
     });
     const { token } = response.data;
     setAuthToken(token);
-    console.log(token);
     return true;
   } catch (error) {
     console.error("Login failed:", error);
@@ -35,7 +34,6 @@ export const register = async (
     });
     const { token } = response.data;
     setAuthToken(token);
-    console.log(token);
     return true;
   } catch (error) {
     console.error("Register failed:", error);
@@ -48,7 +46,8 @@ export const logout = () => {
 };
 
 export const setAuthToken = (token: string) => {
-  Cookies.set(TOKEN_COOKIE_NAME, token, { secure: true, sameSite: "strict" });
+  // Cookies.set(TOKEN_COOKIE_NAME, token, { secure: true, sameSite: "strict" });
+  Cookies.set(TOKEN_COOKIE_NAME, token, {});
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
