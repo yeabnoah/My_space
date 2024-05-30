@@ -38,7 +38,9 @@ export default function Feed() {
 
   const fetchDetail = async (id: string) => {
     try {
-      const response = await axios.get(`http://localhost:3000/free/${id}`);
+      const response = await axios.get(
+        `https://myspace.nerdspacer.com/free/${id}`
+      );
 
       setDiary(response.data);
       setImages(response.data.picture);
@@ -83,7 +85,7 @@ export default function Feed() {
 
       if (token) {
         const response = await axios.post(
-          `http://localhost:3000/diary/like/${id}`,
+          `https://myspace.nerdspacer.com/diary/like/${id}`,
           {},
           {
             headers: {
@@ -115,7 +117,7 @@ export default function Feed() {
 
       if (token) {
         const response = await axios.post(
-          `http://localhost:3000/diary/dislike/${id}`,
+          `https://myspace.nerdspacer.com/diary/dislike/${id}`,
           {},
           {
             headers: {

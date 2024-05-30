@@ -58,7 +58,7 @@ export default function Dashboard() {
     const token = getAuthToken();
     try {
       const response = await axios.post(
-        "http://localhost:3000/diary",
+        "https://myspace.nerdspacer.com/diary",
         {
           date: dateGet,
           theme: color,

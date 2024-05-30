@@ -31,18 +31,23 @@ export default function MyDiaries() {
 
   const fetchData = async () => {
     const token = getAuthToken();
-    const response = await axios.get("http://localhost:3000/diary/my_diary/", {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const response = await axios.get(
+      "https://myspace.nerdspacer.com/diary/my_diary/",
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
     setDiaryList(response.data);
   };
 
   const fetchDetail = async (id: string) => {
     try {
-      const response = await axios.get(`http://localhost:3000/free/${id}`);
+      const response = await axios.get(
+        `https://myspace.nerdspacer.com/free/${id}`
+      );
 
       setDiary(response.data);
       setImages(response.data.picture);
@@ -86,7 +91,7 @@ export default function MyDiaries() {
 
       if (token) {
         const response = await axios.post(
-          `http://localhost:3000/diary/like/${id}`,
+          `https://myspace.nerdspacer.com/diary/like/${id}`,
           {},
           {
             headers: {
@@ -118,7 +123,7 @@ export default function MyDiaries() {
 
       if (token) {
         const response = await axios.post(
-          `http://localhost:3000/diary/dislike/${id}`,
+          `https://myspace.nerdspacer.com/diary/dislike/${id}`,
           {},
           {
             headers: {

@@ -8,7 +8,7 @@ export const login = async (
   password: string
 ): Promise<boolean> => {
   try {
-    const response = await axios.post("http://localhost:3000/login", {
+    const response = await axios.post("https://myspace.nerdspacer.com/login", {
       username,
       password,
     });
@@ -27,11 +27,14 @@ export const register = async (
   password: string
 ): Promise<boolean> => {
   try {
-    const response = await axios.post("http://localhost:3000/register", {
-      name,
-      username,
-      password,
-    });
+    const response = await axios.post(
+      "https://myspace.nerdspacer.com/register",
+      {
+        name,
+        username,
+        password,
+      }
+    );
     const { token } = response.data;
     setAuthToken(token);
     return true;

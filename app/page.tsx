@@ -43,11 +43,14 @@ export default function Dashboard() {
   const whoAmI = async () => {
     const token = await getAuthToken();
 
-    const response = await axios.get("http://localhost:3000/user/whoami/", {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const response = await axios.get(
+      "https://myspace.nerdspacer.com/user/whoami/",
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
     setUser(response?.data);
   };
