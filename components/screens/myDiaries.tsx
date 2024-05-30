@@ -61,7 +61,7 @@ export default function MyDiaries() {
   useEffect(() => {
     const fetchCountriesInterval = setInterval(() => {
       fetchData();
-    }, 15000);
+    }, 2000);
 
     return () => clearInterval(fetchCountriesInterval);
   }, []);
