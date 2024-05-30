@@ -3,7 +3,7 @@ import Image from "next/image";
 import useLoginData from "@/context/loggedIn";
 import useUserStore from "@/context/myDetails";
 import { Button } from "../ui/button";
-import avatar from "../../public/avatar.jpg";
+import avatar from "../../public/avatar.png";
 import { Edit, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { logout } from "@/middleware/authService";
@@ -71,9 +71,9 @@ function SettingPage() {
               <Image
                 src={avatar}
                 alt="test"
-                width={20}
-                height={30}
-                className="h-28 w-28 rounded-full m-5 border-2 border-gray-400"
+                width={100}
+                height={100}
+                className="h-24 w-24 rounded-full m-5 border-2 border-gray-400"
               />
               <div className=" items-center justify-center flex">
                 <div>

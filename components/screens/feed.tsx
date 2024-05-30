@@ -30,8 +30,8 @@ export default function Feed() {
   const [imageReported, setImageReported] = useState(false);
 
   const fetchData = async () => {
-    // const response = await axios.get("http://127.0.0.1:3000");
-    const response = await axios.get("http://5.75.159.92/");
+    const response = await axios.get("http://127.0.0.1:3000");
+    // const response = await axios.get("http://5.75.159.92/");
 
     setDiaryList(response.data);
   };
@@ -52,7 +52,7 @@ export default function Feed() {
   useEffect(() => {
     const fetchCountriesInterval = setInterval(() => {
       fetchData();
-    }, 15000);
+    }, 2000);
 
     return () => clearInterval(fetchCountriesInterval);
   }, []);

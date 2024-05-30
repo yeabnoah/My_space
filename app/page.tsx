@@ -25,7 +25,7 @@ import "./globals.css";
 import { getAuthToken, logout } from "@/middleware/authService";
 import useUserStore from "@/context/myDetails";
 import { log } from "console";
-import avatar from "../public/avatar.jpg";
+import avatar from "../public/avatar.png";
 import { useRouter } from "next/navigation";
 import useLoginData from "@/context/loggedIn";
 import { splitText } from "@/components/elements/sliceText";
@@ -61,7 +61,6 @@ export default function Dashboard() {
           whoAmI();
         } else {
           setIsLoggedIn(false);
-        
         }
       } catch (error) {
         console.error("Error fetching data:", error);
