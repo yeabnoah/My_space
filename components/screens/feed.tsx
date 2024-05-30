@@ -158,7 +158,7 @@ export default function Feed() {
         </Button>
       </div>
       <h3 className="text-white text-lg md:text-base -mb-3 courier-prime-regular">
-        Diaries/Journals
+        Diaries/Thoughts
       </h3>
 
       <div className="flex-col md:flex rounded-lg md:flex-row md:gap-5 overflow-x-scroll hide_scroll_bar">

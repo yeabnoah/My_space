@@ -172,7 +172,7 @@ export default function Dashboard() {
       </div>
       <div className="md:w-[16.5%] h-full bg-Sidebar hidden md:flex flex-col justify-between">
         <div className="text-primary text-lg text-center mt-5 courier-prime-regular">
-          My_Space.com
+          MySpace
         </div>
 
         <div className="h-[350px] w-[100%] flex justify-center items-center">
