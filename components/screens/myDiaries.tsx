@@ -2,21 +2,25 @@
 
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import getDiaries from "@/utils/dummy";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import spring from "../../public/spring.png";
-import { Ban, Heart, HeartOff, MessageSquareMore } from "lucide-react";
+import {
+  Delete,
+  DeleteIcon,
+  Heart,
+  HeartOff,
+  Pencil,
+  TrashIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import useAdd from "@/context/add";
 import axios from "axios";
-import spinner from "../../public/spinner.svg";
+import spinner from "../../public/nopost (2).png";
 import { getAuthToken } from "@/middleware/authService";
 import useLoginData from "@/context/loggedIn";
 import { splitText } from "../elements/sliceText";
 import useDiaryState from "@/context/diaryDetail";
 import useImage from "@/context/images";
-import { error } from "console";
 
 export default function MyDiaries() {
   const router = useRouter();
@@ -26,8 +30,7 @@ export default function MyDiaries() {
   const { diary, setDiary } = useDiaryState();
   const { images, setImages } = useImage();
   const [imageLiked, setImageLiked] = useState(false);
-  const [imageDisliked, setImageDisliked] = useState(false);
-  const [imageReported, setImageReported] = useState(false);
+  const [isModal, setIsModal] = useState(false);
 
   const fetchData = async () => {
     const token = getAuthToken();
@@ -58,10 +61,48 @@ export default function MyDiaries() {
     }
   };
 
+  const fetchDetailEdit = async (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    try {
+      event.stopPropagation();
+      const response = await axios.get(
+        `https://myspace.nerdspacer.com/free/${id}`
+      );
+
+      setDiary(response.data);
+      setImages(response.data.picture);
+
+      router.push(`/edit/${id}`);
+    } catch (error: any) {
+      router.push("/");
+    }
+  };
+
+  const deleteHandler = async (
+    id: string,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.stopPropagation();
+    const token = getAuthToken();
+
+    const response = await axios.delete(
+      `https://myspace.nerdspacer.com/diary/${id}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+
+    setIsModal(false);
+  };
+
   useEffect(() => {
     const fetchCountriesInterval = setInterval(() => {
       fetchData();
-    }, 2000);
+    }, 1500);
 
     return () => clearInterval(fetchCountriesInterval);
   }, []);
@@ -155,7 +196,7 @@ export default function MyDiaries() {
 
       <div className="flex-col md:flex rounded-lg md:flex-row md:gap-5 overflow-x-scroll hide_scroll_bar">
         <div className="rounded-lg flex-col md:flex md:flex-row md:gap-2 flex-wrap hide_scroll_bar">
-          {!DiaryList || DiaryList.length === 0 ? (
+          {DiaryList.length === 0 ? (
             <div className="  md:w-[900px] md:h-[500px] mt-[50%] md:mt-0 flex justify-center items-center">
               <div>
                 <Image
@@ -165,7 +206,9 @@ export default function MyDiaries() {
                   alt="test"
                   className=""
                 />
-                <h3 className=" text-gray-200 text-center">Loading ...</h3>
+                <h3 className=" text-gray-200 text-center">
+                  You havent posted yet
+                </h3>
               </div>
             </div>
           ) : (
@@ -299,26 +342,6 @@ export default function MyDiaries() {
                         </h3>
                       </div>
                       <div className=" w-auto -ml-8 md:-ml-12 border-t-2 border-gray-500 flex">
-                        {/* {imageLiked ? (
-                          <Button
-                            onClick={(event) => {
-                              handleLike(each._id, event);
-                            }}
-                            className="bg-transparent"
-                          >
-                            {<Heart size={20} fill="red" />}
-                          </Button>
-                        ) : (
-                          <Button
-                            onClick={(event) => {
-                              handleLike(each._id, event);
-                            }}
-                            className="bg-transparent"
-                          >
-                            {<Heart size={20} />}
-                          </Button>
-                        )}
-                         */}
                         <div>
                           <Button
                             onClick={(event) => {
@@ -345,16 +368,80 @@ export default function MyDiaries() {
                           <HeartOff size={20} fill="black" />
                         </Button>
 
-                        {/* <Button
-                          onClick={() => {
-                            handleReport(each._id);
+                        <Button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setIsModal(true);
                           }}
-                          className="bg-transparent"
+                          className="bg-transparent mx-1 flex items-center justify-center"
                         >
-                          <h2 className=" text-xl mx-1">
-                            {each.reports.length}
-                          </h2>
-                          <Ban size={20} fill="#7864f6" />
+                          <TrashIcon size={20} fill="gray" />
+                        </Button>
+
+                        <Button
+                          onClick={(event) => {
+                            fetchDetailEdit(each._id, event);
+                          }}
+                          className="bg-transparent mx-1 flex items-center justify-center"
+                        >
+                          <Pencil size={20} fill="yellow" />
+                        </Button>
+
+                        {isModal && (
+                          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            <div className="bg-primary rounded-lg shadow-lg p-6 w-full max-w-md">
+                              <h2 className="text-lg font-semibold mb-4">
+                                Are you sure you want to delete?
+                              </h2>
+                              <p className="mb-6">
+                                This action cannot be undone.
+                              </p>
+                              <div className="flex justify-end space-x-4">
+                                <button
+                                  className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    setIsModal(false);
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                  onClick={(event) => {
+                                    deleteHandler(each._id, event);
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* <Button
+                          onClick={(event) => {
+                            handleDislike(each._id, event);
+                          }}
+                          className="bg-transparent justify-end bg-red-400 hover:bg-red-500 flex items-center p-1 m-[.5px]"
+                        >
+                          <TrashIcon
+                            size={16}
+                            fill="black border-black border-2"
+                          />
+                        </Button>
+
+
+                        <Button
+                          onClick={(event) => {
+                            handleDislike(each._id, event);
+                          }}
+                          className="bg-transparent justify-end bg-blue-400 hover:bg-blue-500 flex items-center p-1 m-[.5px]"
+                        >
+                          <Pencil
+                            size={16}
+                            fill="black border-black border-2"
+                          />
                         </Button> */}
                       </div>
                     </div>
