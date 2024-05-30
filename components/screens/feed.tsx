@@ -30,7 +30,7 @@ export default function Feed() {
   const [imageReported, setImageReported] = useState(false);
 
   const fetchData = async () => {
-    const response = await axios.get("http://127.0.0.1:3000");
+    const response = await axios.get("https://myspace.nerdspacer.com");
     // const response = await axios.get("http://5.75.159.92/");
 
     setDiaryList(response.data);
