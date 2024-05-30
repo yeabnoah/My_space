@@ -203,7 +203,12 @@ export default function Dashboard() {
             {isLoggedIn && user ? (
               <div>
                 <h2
-                  className={`text-${user.theme} text-base text-center mt-3 courier-prime-regular`}
+                  className={`text-${user.theme} text-sm text-center mt-3 courier-prime-regular`}
+                >
+                  {user.username}
+                </h2>
+                <h2
+                  className={`text-${user.theme} text-sm text-center courier-prime-regular`}
                 >
                   {user.name}
                 </h2>

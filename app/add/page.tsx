@@ -41,13 +41,18 @@ export default function Dashboard() {
   const { setColor, color } = useColor();
   const { mood, setMood } = useMood();
   const [text, setText] = useState("talk to your little diary ...");
-  const { images, setImages } = useImage();
+  const { images, setImages, resetImages } = useImage();
   const [diaryStatus, setDiaryStatus] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
 
   // const [isPublic, setIsPublic] = useState(false);
 
   const [profilePic, setProfilePic] = useState<string[]>([]); // Specify string[] for profilePic state
+
+  const cancelHandler = () => {
+    resetImages();
+    router.push("/");
+  };
 
   const handleSubmit = async () => {
     const token = getAuthToken();
@@ -256,13 +261,23 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <Button
-              onClick={handleSubmit}
-              className={`my-3 text-sm bg-${color}`}
-            >
-              <NotebookPen size={18} className="mx-2 " />
-              Create Diary
-            </Button>
+            <div className=" flex gap-4 items-center">
+              <Button
+                onClick={handleSubmit}
+                className={`my-3 text-sm bg-${color}`}
+              >
+                <NotebookPen size={18} className="mx-2 " />
+                Create Diary
+              </Button>
+
+              <Button
+                onClick={cancelHandler}
+                className={`my-2 text-sm bg-red-400`}
+              >
+                {/* < size={18} className="mx-2 " /> */}
+                Cancel
+              </Button>
+            </div>
           </div>
         </div>
       </div>

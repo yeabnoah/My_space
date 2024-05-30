@@ -57,12 +57,12 @@ function SettingPage() {
             <div className="text-primary">Name: {user.name}</div>
             <div className="text-primary">Username: @{user.username}</div>
           </div>
-          <div className="border-1 border-white">
+          {/* <div className="border-1 border-white">
             <div className="text-white text-base mt-10 flex gap-32 items-center">
               <h2>My-Theme</h2>
               <div className={`h-4 w-10 bg-${user.theme}`}></div>
             </div>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div>

@@ -24,7 +24,7 @@ export default function Feed() {
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
   const [loading, setLoading] = useState(false);
   const { diary, setDiary } = useDiaryState();
-  const { images, setImages } = useImage();
+  const { images, setImages, resetImages } = useImage();
   const [imageLiked, setImageLiked] = useState(false);
   const [imageDisliked, setImageDisliked] = useState(false);
   const [imageReported, setImageReported] = useState(false);
@@ -60,6 +60,7 @@ export default function Feed() {
   const { isAdd, setIsAdd } = useAdd();
 
   const addHandler = async () => {
+    resetImages();
     const token = getAuthToken();
 
     if (token) {
