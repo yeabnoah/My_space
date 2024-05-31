@@ -1,45 +1,25 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link"; // Import Link from Next.js for navigation
-import spring from "../../public/ff.png";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
-import useScreen from "@/context/screens";
-import Feed from "@/components/screens/feed";
-import SettingPage from "@/components/screens/settings";
-import Secrets from "@/components/screens/secrets";
-import MyDiaries from "@/components/screens/myDiaries";
-import { useRouter } from "next/navigation"; // Corrected import statement
-import ColorPicker from "@/components/elements/colorpiscker";
-import useColor from "@/context/color";
-import { DatePickerWithPresets } from "@/components/ui/DatePickerWithPresets";
-import useDate from "@/context/date";
-import MoodPicker from "@/components/elements/moodPicker";
-import useMood from "@/context/mood";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  ArrowLeft,
-  BookHeartIcon,
-  Globe,
-  Lock,
-  NotebookPen,
-  SendIcon,
-  SendToBackIcon,
-  SkipBackIcon,
-  User,
-} from "lucide-react";
-import axios from "axios";
-import pin from "../../public/uuu.png";
-import test from "../../public/uuuu.jpg";
-import { Input } from "@/components/ui/input";
-import Draggable from "react-draggable";
 import TesterApp from "@/components/elements/swiper";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import useColor from "@/context/color";
+import useDate from "@/context/date";
+import useDiaryState from "@/context/diaryDetail";
 import useImage from "@/context/images";
 import useLoginData from "@/context/loggedIn";
+import useMood from "@/context/mood";
+import useScreen from "@/context/screens";
 import { getAuthToken } from "@/middleware/authService";
-import { headers } from "next/headers";
-import useDiaryState from "@/context/diaryDetail";
+import axios from "axios";
+import { ArrowLeft, SendIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link"; // Import Link from Next.js for navigation
+import { useRouter } from "next/navigation"; // Corrected import statement
+import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import spring from "../../public/ff.png";
+import useUserStore from "@/context/myDetails";
 
 const cloudName = "dsaitxphg";
 const preset_key = "ccelrtz4";
@@ -63,8 +43,9 @@ interface Comment {
 
 export default function Details({ params }: { params: { id: string } }) {
   // Receive onSelect as a prop
-  const { screen } = useScreen();
   const router = useRouter();
+  const { screen } = useScreen();
+  const queryClient = useQueryClient();
   const { dateGet, setDateGet } = useDate();
   const { setColor, color } = useColor();
   const { mood, setMood } = useMood();
@@ -73,50 +54,72 @@ export default function Details({ params }: { params: { id: string } }) {
   const [diaryStatus, setDiaryStatus] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
   const { diary, setDiary, resetDiary } = useDiaryState();
-  const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
-
-  const fetchDetail = async () => {
-    try {
+  const { data: comments, isLoading } = useQuery({
+    queryKey: ["comments", params.id],
+    queryFn: async () => {
       const token = getAuthToken();
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${params.id}`
-      );
-
       const commentResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/comments/${params.id}`,
         {
           headers: {
             Authorization: token,
           },
-        }
+        },
+      );
+
+      return commentResponse.data.comments;
+    },
+  });
+  const [comment, setComment] = useState("");
+
+  const fetchDetail = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${params.id}`,
       );
 
       // console.log("this is comments :", commentResponse.data.comments);
-      setComments(commentResponse.data.comments);
       setDiary(response.data);
       setImages(response.data.picture);
     } catch (error: any) {}
   };
 
-  const commentHandler = async () => {
-    const token = getAuthToken();
+  const useUser = useUserStore((state) => state.user);
 
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/comment/${params.id}`,
-      {
-        content: comment,
-      },
-      {
-        headers: {
-          Authorization: token,
+  const commentMutation = useMutation({
+    async mutationFn(comment: string) {
+      const token = getAuthToken();
+
+      return axios.post(
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/comment/${params.id}`,
+        {
+          content: comment,
         },
-      }
-    );
-
-    fetchDetail();
-    console.log(response.data);
-  };
+        {
+          headers: {
+            Authorization: token,
+          },
+        },
+      );
+    },
+    onSuccess(_, comment) {
+      queryClient.setQueryData<Comment[]>(["comments", params.id], (p) => {
+        if (!p) {
+          return [];
+        }
+        return [
+          ...p,
+          {
+            _id: Date.now().toString(),
+            content: comment,
+            userId: { ...useUser, __v: 0 },
+            diaryId: params.id,
+            __v: Date.now(),
+          },
+        ];
+      });
+    },
+  });
 
   useEffect(() => {
     fetchDetail();
@@ -225,7 +228,7 @@ export default function Details({ params }: { params: { id: string } }) {
                 />
 
                 <Button
-                  onClick={commentHandler}
+                  onClick={() => commentMutation.mutate(comment)}
                   className={`my-3 text-sm bg-${color}`}
                 >
                   <SendIcon size={18} className="" />
