@@ -46,6 +46,6 @@ Want to help make My Space even better? Here's how:
 
 ## Found a Bug or Have Ideas?
 
-Got a problem or a cool idea? Tell us about it! We're here to make My Space awesome together!
+Got a problem or a cool idea? Tell us about it! I am here to make My Space awesome together!
 
 Let's make My Space the best place to be online! 🚀✨
