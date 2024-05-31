@@ -1,5 +1,7 @@
 # My Space
 
+![My Space](https://i.ibb.co/RzXXzzM/myspace.png)
+
 Welcome to My Space, a thought/diary/journal sharing platform where you can express your feelings, share your moments, and engage with a vibrant community. This documentation will guide you through the features, tech stack, and setup instructions of the project.
 
 ## Table of Contents
