@@ -80,11 +80,11 @@ export default function Details({ params }: { params: { id: string } }) {
     try {
       const token = getAuthToken();
       const response = await axios.get(
-        `https://myspace.nerdspacer.com/free/${params.id}`
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${params.id}`
       );
 
       const commentResponse = await axios.get(
-        `https://myspace.nerdspacer.com/diary/comments/${params.id}`,
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/comments/${params.id}`,
         {
           headers: {
             Authorization: token,
@@ -103,7 +103,7 @@ export default function Details({ params }: { params: { id: string } }) {
     const token = getAuthToken();
 
     const response = await axios.post(
-      `https://myspace.nerdspacer.com/diary/comment/${params.id}`,
+      `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/comment/${params.id}`,
       {
         content: comment,
       },

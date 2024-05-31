@@ -19,7 +19,7 @@ export default function Register() {
   const [showError, setShowError] = useState(false);
   const router = useRouter();
 
-  const TOKEN_COOKIE_NAME = "jwtTokenLoggedIn";
+  
 
   const handleSubmit = async () => {
     const success = await register(name, username, password);

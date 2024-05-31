@@ -43,7 +43,7 @@ export function EditUser() {
     try {
       const token = getAuthToken();
       const response = await axios.patch(
-        "https://myspace.nerdspacer.com/user/update-profile",
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/user/update-profile`,
         {
           username,
           name,

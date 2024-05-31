@@ -23,7 +23,7 @@ export default function Login() {
   const whoAmI = async () => {
     const token = await getAuthToken();
     const response = await axios.get(
-      "https://myspace.nerdspacer.com/user/whoami/",
+      `${process.env.NEXT_PUBLIC_MAIN_URL}/user/whoami/`,
       {
         headers: {
           Authorization: token,
@@ -33,8 +33,6 @@ export default function Login() {
 
     setUser(response?.data);
   };
-
-  const TOKEN_COOKIE_NAME = "jwtTokenLoggedIn";
 
   const handleSubmit = async () => {
     const success = await login(username, password);

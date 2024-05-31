@@ -44,7 +44,7 @@ export default function Dashboard() {
     const token = await getAuthToken();
 
     const response = await axios.get(
-      "https://myspace.nerdspacer.com/user/whoami/",
+      `${process.env.NEXT_PUBLIC_MAIN_URL}/user/whoami/`,
       {
         headers: {
           Authorization: token,

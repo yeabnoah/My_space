@@ -71,7 +71,7 @@ export default function Dashboard({ params }: { params: { id: string } }) {
     const token = getAuthToken();
     try {
       const response = await axios.patch(
-        `https://myspace.nerdspacer.com/diary/${params.id}`,
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/${params.id}`,
         {
           date: dateGet,
           theme: color,
@@ -102,7 +102,7 @@ export default function Dashboard({ params }: { params: { id: string } }) {
   const fetchDetail = async (id: string) => {
     try {
       const response = await axios.get(
-        `https://myspace.nerdspacer.com/free/${id}`
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${id}`
       );
 
       setDiary(response.data);

@@ -30,8 +30,7 @@ export default function Feed() {
   const [imageReported, setImageReported] = useState(false);
 
   const fetchData = async () => {
-    const response = await axios.get("https://myspace.nerdspacer.com");
-    // const response = await axios.get("http://5.75.159.92/");
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_MAIN_URL}`);
 
     setDiaryList(response.data);
   };
@@ -39,7 +38,7 @@ export default function Feed() {
   const fetchDetail = async (id: string) => {
     try {
       const response = await axios.get(
-        `https://myspace.nerdspacer.com/free/${id}`
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${id}`
       );
 
       setDiary(response.data);
@@ -85,7 +84,7 @@ export default function Feed() {
 
       if (token) {
         const response = await axios.post(
-          `https://myspace.nerdspacer.com/diary/like/${id}`,
+          `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/like/${id}`,
           {},
           {
             headers: {
@@ -117,7 +116,7 @@ export default function Feed() {
 
       if (token) {
         const response = await axios.post(
-          `https://myspace.nerdspacer.com/diary/dislike/${id}`,
+          `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/dislike/${id}`,
           {},
           {
             headers: {

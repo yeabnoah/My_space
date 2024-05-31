@@ -8,10 +8,13 @@ export const login = async (
   password: string
 ): Promise<boolean> => {
   try {
-    const response = await axios.post("https://myspace.nerdspacer.com/login", {
-      username,
-      password,
-    });
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_MAIN_URL}/login`,
+      {
+        username,
+        password,
+      }
+    );
     const { token } = response.data;
     setAuthToken(token);
     return true;
@@ -28,7 +31,7 @@ export const register = async (
 ): Promise<boolean> => {
   try {
     const response = await axios.post(
-      "https://myspace.nerdspacer.com/register",
+      `${process.env.NEXT_PUBLIC_MAIN_URL}/register`,
       {
         name,
         username,

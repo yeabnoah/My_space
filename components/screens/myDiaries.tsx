@@ -35,7 +35,7 @@ export default function MyDiaries() {
   const fetchData = async () => {
     const token = getAuthToken();
     const response = await axios.get(
-      "https://myspace.nerdspacer.com/diary/my_diary/",
+      `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/my_diary/`,
       {
         headers: {
           Authorization: token,
@@ -49,7 +49,7 @@ export default function MyDiaries() {
   const fetchDetail = async (id: string) => {
     try {
       const response = await axios.get(
-        `https://myspace.nerdspacer.com/free/${id}`
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${id}`
       );
 
       setDiary(response.data);
@@ -68,7 +68,7 @@ export default function MyDiaries() {
     try {
       event.stopPropagation();
       const response = await axios.get(
-        `https://myspace.nerdspacer.com/free/${id}`
+        `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${id}`
       );
 
       setDiary(response.data);
@@ -88,7 +88,7 @@ export default function MyDiaries() {
     const token = getAuthToken();
 
     const response = await axios.delete(
-      `https://myspace.nerdspacer.com/diary/${id}`,
+      `${process.env.NEXT_PUBLIC_MAIN_URL}_URL}_URL}_URL}/diary/${id}`,
       {
         headers: {
           Authorization: token,
@@ -132,7 +132,7 @@ export default function MyDiaries() {
 
       if (token) {
         const response = await axios.post(
-          `https://myspace.nerdspacer.com/diary/like/${id}`,
+          `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/like/${id}`,
           {},
           {
             headers: {
@@ -164,7 +164,7 @@ export default function MyDiaries() {
 
       if (token) {
         const response = await axios.post(
-          `https://myspace.nerdspacer.com/diary/dislike/${id}`,
+          `${process.env.NEXT_PUBLIC_MAIN_URL}/diary/dislike/${id}`,
           {},
           {
             headers: {
