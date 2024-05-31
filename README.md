@@ -8,7 +8,7 @@ Hey there, welcome to My Space! This is where you can share your thoughts, memor
 
 My Space is like your digital diary, but cooler! Here's what you can do:
 
-### Features 🌈
+### Features 
 - **Choose Your Look**: Make your posts look cool with different styles.
 - **Keep It Private or Share**: Decide if you want only you to see or everyone.
 - **Show How You Feel**: Use emojis to show your mood.
