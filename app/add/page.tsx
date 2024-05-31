@@ -29,6 +29,10 @@ import useImage from "@/context/images";
 import useLoginData from "@/context/loggedIn";
 import { getAuthToken } from "@/middleware/authService";
 import { headers } from "next/headers";
+import Cropper from "cropperjs";
+import "cropperjs/dist/cropper.css";
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 
 const cloudName = "dsaitxphg";
 const preset_key = "ccelrtz4";
@@ -179,6 +183,12 @@ export default function Dashboard() {
             {text}
           </p>
 
+          <div className=" md:hidden hide_scroll_bar md:first-line:h-screen mr-10 mt-10">
+            <div className=" justify-end">
+              <TesterApp />
+            </div>
+          </div>
+
           {/* <div className="flex-grow"></div> */}
         </div>
 
@@ -243,6 +253,9 @@ export default function Dashboard() {
 
             <div className="flex-wrap mt-2 flex">
               <div className="flex-col w-max">
+                <h2 className=" italic text  text-white text-sm text-wrap">
+                  (use portrait image 😊)
+                </h2>
                 <div className="flex items-start">
                   <input
                     type="file"
