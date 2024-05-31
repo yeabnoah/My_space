@@ -120,7 +120,7 @@ export default function Details({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     fetchDetail();
-  }, [comments]);
+  }, []);
 
   return (
     <div
