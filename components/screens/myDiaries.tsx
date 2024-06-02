@@ -28,7 +28,7 @@ export default function MyDiaries() {
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
   const [loading, setLoading] = useState(false);
   const { diary, setDiary } = useDiaryState();
-  const { images, setImages } = useImage();
+  const { images, setImages, resetImages } = useImage();
   const [imageLiked, setImageLiked] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
@@ -100,6 +100,7 @@ export default function MyDiaries() {
   };
 
   useEffect(() => {
+    resetImages();
     const fetchCountriesInterval = setInterval(() => {
       fetchData();
     }, 1500);

@@ -69,7 +69,7 @@ export default function Details({ params }: { params: { id: string } }) {
   const { setColor, color } = useColor();
   const { mood, setMood } = useMood();
   const [text, setText] = useState("talk to your little diary ...");
-  const { images, setImages } = useImage();
+  const { images, setImages, resetImages } = useImage();
   const [diaryStatus, setDiaryStatus] = useState(false);
   const { isLoggedIn, setIsLoggedIn } = useLoginData();
   const { diary, setDiary, resetDiary } = useDiaryState();
@@ -120,7 +120,7 @@ export default function Details({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     fetchDetail();
-  }, [comments]);
+  }, []);
 
   return (
     <div
@@ -131,7 +131,7 @@ export default function Details({ params }: { params: { id: string } }) {
       <div className=" md:hidden  flex justify-end w-screen">
         <Button
           onClick={() => {
-            setImages([]);
+            resetImages();
             router.push("/");
           }}
           className=" items-end justify-end sticky bg-red-400 hover:bg-red-500 text-Sidebar  -mb-10 mt-5 mx-5"
@@ -156,17 +156,7 @@ export default function Details({ params }: { params: { id: string } }) {
           <h1 className="courier-prime text-xl md:text-2xl md:mt-10 mt-7">
             Date: {diary && diary.date}
           </h1>
-          {/* <div className=" md:hidden  flex justify-end w-screen">
-        <Button
-          onClick={() => {
-            setImages([]);
-            router.push("/");
-          }}
-          className=" items-end justify-end sticky bg-primary hover:bg-primary text-Sidebar  -mb-10 mt-5 mx-5"
-        >
-          Back
-        </Button>
-      </div> */}
+
           <div>
             <div
               className={`bg-Sidebar text-${color} py-1 w-max px-2 rounded-sm md:mt-5 mt-2 mb-2 text-sm md:text-base `}
@@ -185,6 +175,7 @@ export default function Details({ params }: { params: { id: string } }) {
         >
           <Button
             onClick={() => {
+              resetImages();
               router.push("/");
             }}
             className=" hidden items-start sticky top-0 bg-primary hover:bg-primary mt-10 text-white"

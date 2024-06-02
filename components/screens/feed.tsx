@@ -36,6 +36,7 @@ export default function Feed() {
   };
 
   const fetchDetail = async (id: string) => {
+    resetImages();
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_MAIN_URL}/free/${id}`
@@ -51,6 +52,7 @@ export default function Feed() {
   };
 
   useEffect(() => {
+    resetImages();
     const fetchCountriesInterval = setInterval(() => {
       fetchData();
     }, 2000);
@@ -66,7 +68,7 @@ export default function Feed() {
 
     if (token) {
       setIsLoggedIn(true);
-      setImages([]);
+      resetImages();
       router.push("/add");
     } else {
       setIsLoggedIn(false);
@@ -176,217 +178,189 @@ export default function Feed() {
               </div>
             </div>
           ) : (
-            DiaryList.map((each: any) => {
-              const splitedText = splitText(each.content);
-              let bgcolorClass = "";
-              let textColorClass = "";
-              switch (each.theme) {
-                case "primary":
-                  bgcolorClass = "bg-primary";
-                  textColorClass = "text-primary";
-                  break;
-                case "secondary":
-                  bgcolorClass = "bg-secondary";
-                  textColorClass = "text-secondary";
-                  break;
-                case "success":
-                  bgcolorClass = "bg-success";
-                  textColorClass = "text-success";
-                  break;
-                case "pink":
-                  bgcolorClass = "bg-pink";
-                  textColorClass = "text-pink";
-                  break;
-                case "color1":
-                  bgcolorClass = "bg-color1";
-                  textColorClass = "text-color1";
-                  break;
-                case "color2":
-                  bgcolorClass = "bg-color2";
-                  textColorClass = "text-color2";
-                  break;
-                case "color3":
-                  bgcolorClass = "bg-color3";
-                  textColorClass = "text-color3";
-                  break;
-                case "color4":
-                  bgcolorClass = "bg-color4";
-                  textColorClass = "text-color4";
-                  break;
-                case "color5":
-                  bgcolorClass = "bg-color5";
-                  textColorClass = "text-color5";
-                  break;
-                case "color6":
-                  bgcolorClass = "bg-color6";
-                  textColorClass = "text-color6";
-                  break;
-                case "color7":
-                  bgcolorClass = "bg-color7";
-                  textColorClass = "text-color7";
-                  break;
-                case "color8":
-                  bgcolorClass = "bg-color8";
-                  textColorClass = "text-color8";
-                  break;
-                case "color9":
-                  bgcolorClass = "bg-color9";
-                  textColorClass = "text-color9";
-                  break;
-                case "color10":
-                  bgcolorClass = "bg-color10";
-                  textColorClass = "text-color10";
-                  break;
-                case "color11":
-                  bgcolorClass = "bg-color11";
-                  textColorClass = "text-color11";
-                  break;
-                case "color12":
-                  bgcolorClass = "bg-color12";
-                  textColorClass = "text-color12";
-                  break;
-                case "color13":
-                  bgcolorClass = "bg-color13";
-                  textColorClass = "text-color13";
-                  break;
-                case "color14":
-                  bgcolorClass = "bg-color14";
-                  textColorClass = "text-color14";
-                  break;
-                case "color15":
-                  bgcolorClass = "bg-color15";
-                  textColorClass = "text-color15";
-                  break;
-                case "color16":
-                  bgcolorClass = "bg-color16";
-                  textColorClass = "text-color16";
-                  break;
-                case "color17":
-                  bgcolorClass = "bg-color17";
-                  textColorClass = "text-color17";
-                  break;
-                case "color18":
-                  bgcolorClass = "bg-color18";
-                  textColorClass = "text-color18";
-                  break;
-                default:
-                  bgcolorClass = "bg-primary";
-                  textColorClass = "text-primary";
-              }
+            DiaryList.slice()
+              .reverse()
+              .map((each: any) => {
+                const splitedText = splitText(each.content);
+                let bgcolorClass = "";
+                let textColorClass = "";
+                switch (each.theme) {
+                  case "primary":
+                    bgcolorClass = "bg-primary";
+                    textColorClass = "text-primary";
+                    break;
+                  case "secondary":
+                    bgcolorClass = "bg-secondary";
+                    textColorClass = "text-secondary";
+                    break;
+                  case "success":
+                    bgcolorClass = "bg-success";
+                    textColorClass = "text-success";
+                    break;
+                  case "pink":
+                    bgcolorClass = "bg-pink";
+                    textColorClass = "text-pink";
+                    break;
+                  case "color1":
+                    bgcolorClass = "bg-color1";
+                    textColorClass = "text-color1";
+                    break;
+                  case "color2":
+                    bgcolorClass = "bg-color2";
+                    textColorClass = "text-color2";
+                    break;
+                  case "color3":
+                    bgcolorClass = "bg-color3";
+                    textColorClass = "text-color3";
+                    break;
+                  case "color4":
+                    bgcolorClass = "bg-color4";
+                    textColorClass = "text-color4";
+                    break;
+                  case "color5":
+                    bgcolorClass = "bg-color5";
+                    textColorClass = "text-color5";
+                    break;
+                  case "color6":
+                    bgcolorClass = "bg-color6";
+                    textColorClass = "text-color6";
+                    break;
+                  case "color7":
+                    bgcolorClass = "bg-color7";
+                    textColorClass = "text-color7";
+                    break;
+                  case "color8":
+                    bgcolorClass = "bg-color8";
+                    textColorClass = "text-color8";
+                    break;
+                  case "color9":
+                    bgcolorClass = "bg-color9";
+                    textColorClass = "text-color9";
+                    break;
+                  case "color10":
+                    bgcolorClass = "bg-color10";
+                    textColorClass = "text-color10";
+                    break;
+                  case "color11":
+                    bgcolorClass = "bg-color11";
+                    textColorClass = "text-color11";
+                    break;
+                  case "color12":
+                    bgcolorClass = "bg-color12";
+                    textColorClass = "text-color12";
+                    break;
+                  case "color13":
+                    bgcolorClass = "bg-color13";
+                    textColorClass = "text-color13";
+                    break;
+                  case "color14":
+                    bgcolorClass = "bg-color14";
+                    textColorClass = "text-color14";
+                    break;
+                  case "color15":
+                    bgcolorClass = "bg-color15";
+                    textColorClass = "text-color15";
+                    break;
+                  case "color16":
+                    bgcolorClass = "bg-color16";
+                    textColorClass = "text-color16";
+                    break;
+                  case "color17":
+                    bgcolorClass = "bg-color17";
+                    textColorClass = "text-color17";
+                    break;
+                  case "color18":
+                    bgcolorClass = "bg-color18";
+                    textColorClass = "text-color18";
+                    break;
+                  default:
+                    bgcolorClass = "bg-primary";
+                    textColorClass = "text-primary";
+                }
 
-              return (
-                <div
-                  onClick={() => {
-                    fetchDetail(each._id);
-                  }}
-                  key={each._id}
-                  className={`w-auto md:w-[440px] h-max flex rounded-lg mt-5 p-3 md:mr-5 hover:cursor-pointer  md:gap-0 items-center ${bgcolorClass}`}
-                >
-                  <div className="w-[20%] h-[100%] rounded-md flex items-center">
-                    <Image
-                      src={spring}
-                      width={100}
-                      height={100}
-                      alt="test"
-                      className="rounded-lg h-max md:h-auto w-16 md:w-13 -ml-7 md:-ml-7"
-                    />
-                  </div>
-                  <div className="w-[90%] h-max rounded-md flex md:gap-5">
-                    <div className="md:w-[60%]">
-                      <div className="">
-                        <div className="bg-black p-2 rounded-md -ml-8 md:-ml-12">
-                          <h2
-                            className={`${textColorClass} text-sm md:text-sm courier-prime-regular`}
-                          >
-                            {each.mood}
-                          </h2>
-                        </div>
-                        <h3 className="text-xs md:text-xs font-test courier-prime-bold my-2 -ml-8 md:-ml-12">
-                          {splitedText}
-                        </h3>
-                      </div>
-                      <div className=" w-auto -ml-8 md:-ml-12 border-t-2 border-gray-500 flex">
-                        {/* {imageLiked ? (
-                          <Button
-                            onClick={(event) => {
-                              handleLike(each._id, event);
-                            }}
-                            className="bg-transparent"
-                          >
-                            {<Heart size={20} fill="red" />}
-                          </Button>
-                        ) : (
-                          <Button
-                            onClick={(event) => {
-                              handleLike(each._id, event);
-                            }}
-                            className="bg-transparent"
-                          >
-                            {<Heart size={20} />}
-                          </Button>
-                        )}
-                         */}
-                        <div>
-                          <Button
-                            onClick={(event) => {
-                              handleLike(each._id, event);
-                            }}
-                            className="bg-transparent flex items-center justify-center"
-                          >
-                            <h2 className=" text-xl mx-1">
-                              {each.likes.length}
-                            </h2>
-                            <Heart size={20} fill="red" />
-                          </Button>
-                        </div>
-
-                        <Button
-                          onClick={(event) => {
-                            handleDislike(each._id, event);
-                          }}
-                          className="bg-transparent flex items-center justify-center"
-                        >
-                          <h2 className=" text-xl mx-1">
-                            {each.dislikes.length}
-                          </h2>
-                          <HeartOff size={20} fill="black" />
-                        </Button>
-
-                        {/* <Button
-                          onClick={() => {
-                            handleReport(each._id);
-                          }}
-                          className="bg-transparent"
-                        >
-                          <h2 className=" text-xl mx-1">
-                            {each.reports.length}
-                          </h2>
-                          <Ban size={20} fill="#7864f6" />
-                        </Button> */}
-                      </div>
+                return (
+                  <div
+                    onClick={() => {
+                      fetchDetail(each._id);
+                    }}
+                    key={each._id}
+                    className={`w-auto md:w-[440px] h-max flex rounded-lg mt-5 p-3 md:mr-5 hover:cursor-pointer  md:gap-0 items-center ${bgcolorClass}`}
+                  >
+                    <div className="w-[20%] h-[100%] rounded-md flex items-center">
+                      <Image
+                        src={spring}
+                        width={100}
+                        height={100}
+                        alt="test"
+                        className="rounded-lg h-max md:h-auto w-16 md:w-13 -ml-7 md:-ml-7"
+                      />
                     </div>
+                    <div className="w-[90%] h-max rounded-md flex md:gap-5">
+                      <div className="md:w-[60%]">
+                        <div className="">
+                          <div className="bg-black p-2 rounded-md -ml-8 md:-ml-12">
+                            <h2
+                              className={`${textColorClass} text-sm md:text-sm courier-prime-regular`}
+                            >
+                              {each.mood}
+                            </h2>
+                          </div>
+                          <h3 className="text-xs md:text-xs font-test courier-prime-bold my-2 -ml-8 md:-ml-12">
+                            {splitedText}
+                          </h3>
+                        </div>
+                        <div className=" w-auto -ml-8 md:-ml-12 border-t-2 border-gray-500 flex">
+                          <div className=" flex gap-1">
+                            <Button
+                              onClick={(event) => {
+                                handleLike(each._id, event);
+                              }}
+                              className="bg-transparent flex items-center justify-center"
+                            >
+                              <h2 className=" text-xl mx-1">
+                                {each.likes.length}
+                              </h2>
+                              <Heart size={20} fill="red" />
+                            </Button>
 
-                    {each.picture.length > 0 && (
-                      <div className="image-container h-[100%] hidden md:block">
-                        {loading && (
-                          <div className=" text-white">image loading ...</div>
-                        )}
-                        <Image
-                          onLoad={(e) => {
-                            setLoading(true);
-                          }}
-                          key={each.picture[0]}
-                          src={each.picture[0]}
-                          alt="test"
-                          layout="fill"
-                          className="image"
-                        />
+                            <Button
+                              onClick={(event) => {
+                                handleDislike(each._id, event);
+                              }}
+                              className="bg-transparent flex items-center justify-center"
+                            >
+                              <h2 className=" text-xl mx-1">
+                                {each.dislikes.length}
+                              </h2>
+                              <HeartOff size={20} fill="black" />
+                            </Button>
+                          </div>
+
+                          {/* <div></div> */}
+                        </div>
                       </div>
-                    )}
+
+                      {each.picture.length > 0 && (
+                        <div className="image-container h-[100%] hidden md:block">
+                          {loading && (
+                            <div className=" text-white">image loading ...</div>
+                          )}
+                          <Image
+                            onLoad={(e) => {
+                              setLoading(true);
+                            }}
+                            key={each.picture[0]}
+                            src={each.picture[0]}
+                            alt="test"
+                            layout="fill"
+                            className="image"
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })
           )}
 
           <div className="fixed bottom-4 right-4">

@@ -96,6 +96,7 @@ export default function Dashboard() {
       try {
         if (token) {
           setIsLoggedIn(true);
+          resetImages();
         } else {
           setIsLoggedIn(false);
           router.push("/login");
